@@ -26,7 +26,6 @@ export default function LoginScreen({ navigation }: any) {
   const handleSignin = async () => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });
-      console.log('Login successful:', response);
       login(response.data.token); // Store the token in context and AsyncStorage
     } catch (error) {
       console.error('Error during login:', error);
