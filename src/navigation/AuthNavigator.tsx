@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 export default function AuthNavigator() {
   return (
     //screenOptions={{ headerShown: false }}->top me khud default header show ho raha hai, agar hume header nahi chahiye to isko false karna padega 
-    <Stack.Navigator screenOptions={{ headerShown: false ,}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
