@@ -10,8 +10,8 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { useAuth } from '../context/AuthContext';
-import apiClient from '../api/client';
+import { useAuth } from '../../context/AuthContext';
+import apiClient from '../../services/api/client';
 
 export default function LoginScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }: any) {
     >
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../assets/images/hero-dashboard.jpeg')}
+          source={require('../../assets/images/hero-dashboard.jpeg')}
           style={styles.illustration}
           resizeMode="contain"
         />

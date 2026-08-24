@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, ImageBackground } from 'react-native';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 export default function DashboardScreen() {
 
   const { userDetails } = useAuth();
@@ -40,7 +39,7 @@ export default function DashboardScreen() {
       {/* Today's Focus - placeholder */}
       <View style={styles.focusCard}>
         <Image
-          source={require('../assets/images/dashborad-screen-todays-focus-bg-img.jpeg')}
+          source={require('../../assets/images/dashborad-screen-todays-focus-bg-img.jpeg')}
           style={styles.focusImage}
           resizeMode="cover"
         />

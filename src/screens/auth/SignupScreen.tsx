@@ -10,8 +10,8 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import apiClient from '../api/client';
-import { useAuth } from '../context/AuthContext';
+import apiClient from '../../services/api/client';
+import { useAuth } from '../../context/AuthContext';
 
 export default function SignupScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -43,7 +43,7 @@ export default function SignupScreen({ navigation }: any) {
     >
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
         <Image
-          source={require('../assets/images/signup-illustration.jpeg')}
+          source={require('../../assets/images/signup-illustration.jpeg')}
           style={styles.illustration}
           resizeMode="contain"
         />
