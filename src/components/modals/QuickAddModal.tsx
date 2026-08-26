@@ -13,8 +13,8 @@ interface QuickAddModalProps {
 
 export default function QuickAddModal({ visible, onClose, onNavigate }: QuickAddModalProps) {
     const quickAddItems = [
-        { title: 'Add Expense', subtitle: 'Track your daily expenses', icon: 'dollar-sign', color: colors.success, enabled: true, route: 'AddExpense' },
-        { title: 'Add Bill', subtitle: 'Add and manage your bills', icon: 'file-text', color: colors.warning, enabled: true, route: 'AddBill' },
+        { title: 'Add Expense', subtitle: 'Add your daily expenses', icon: 'dollar-sign', color: colors.success, enabled: true, route: 'AddExpense' },
+        { title: 'Add Bill', subtitle: 'Add your Bills to pay', icon: 'file-text', color: colors.warning, enabled: true, route: 'AddBill' },
         { title: 'Add Document', subtitle: 'Upload important documents', icon: 'file', color: colors.info, enabled: false },
         { title: 'Add Grocery', subtitle: 'Add items to your list', icon: 'shopping-cart', color: '#F97316', enabled: false },
         { title: 'Create Reminder', subtitle: 'Set reminder for important tasks', icon: 'bell', color: colors.accentPurple, enabled: false },

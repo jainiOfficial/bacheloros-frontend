@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TouchableOpacity, View, StyleSheet, Modal, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import DashboardScreen from '../screens/home/DashboardScreen';
 import PlannerScreen from '../screens/planner/PlannerScreen';
 import AIAssistantScreen from '../screens/ai/AIAssistantScreen';
 import ProfileScreen from '../screens/profile/ProfileScreen';
 import QuickAddModal from '../components/modals/QuickAddModal';
 import { colors } from '../theme/colors';
 import { useNavigation } from '@react-navigation/native';
+import HomeStackNavigator from './HomeStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,9 +16,9 @@ function AddPlaceholder() {
   return null;
 }
 
-export default function MainTabNavigator() {
+export default function MainTabNavigator({navigation}: any) {
   const [menuVisible, setMenuVisible] = useState(false);
-  const navigation = useNavigation<any>();
+  // const navigation = useNavigation<any>();
 
   return (
     <>
@@ -29,13 +29,9 @@ export default function MainTabNavigator() {
           tabBarInactiveTintColor: '#94A3B8',
         }}
       >
-        <Tab.Screen
-          name="Home"
-          component={DashboardScreen}
-          options={{
+        <Tab.Screen name="Home" component={HomeStackNavigator}options={{
             tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
-          }}
-        />
+          }}  />
         <Tab.Screen
           name="Planner"
           component={PlannerScreen}
