@@ -2,10 +2,54 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
-export default function DashboardScreen() {
+import Entypo from 'react-native-vector-icons/Entypo';
+export default function DashboardScreen({ navigation }: any) {
 
   const { userDetails } = useAuth();
-  const allModules = ['Finance', 'Documents', 'Home', 'Kitchen', 'Health', 'Goals'];
+  const allModules = [
+    {
+      name: 'Finance',
+      subtitle: 'Track & Manage',
+      icon: 'money',
+      color: '#2563EB',
+      background: '#EFF6FF',
+    },
+    {
+      name: 'Documents',
+      subtitle: 'All in one place',
+      icon: 'folder',
+      color: '#059669',
+      background: '#ECFDF5',
+    },
+    {
+      name: 'Home',
+      subtitle: 'Manage Home',
+      icon: 'home',
+      color: '#EA580C',
+      background: '#FFF7ED',
+    },
+    {
+      name: 'Kitchen',
+      subtitle: 'Pantry & Meals',
+      icon: 'cutlery',
+      color: '#D97706',
+      background: '#FFFBEB',
+    },
+    {
+      name: 'Health',
+      subtitle: 'Stay Fit',
+      icon: 'heartbeat',
+      color: '#E11D48',
+      background: '#FFF1F2',
+    },
+    {
+      name: 'Goals',
+      subtitle: 'Track Progress',
+      icon: 'bullseye',
+      color: '#7C3AED',
+      background: '#F5F3FF',
+    },
+  ];
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -52,17 +96,39 @@ export default function DashboardScreen() {
       {/* My Life Modules - placeholder grid */}
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>My Life Modules</Text>
-        <TouchableOpacity>
-          <Text style={styles.viewAllText}>View All ›</Text>
-        </TouchableOpacity>
       </View>
-      <View style={styles.moduleGrid}>
-        {allModules.slice(0, 3).map((mod) => (
-          <View key={mod} style={styles.moduleCard}>
-            <Text style={styles.moduleText}>{mod}</Text>
-          </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.moduleScroll}>
+        {allModules.slice(0, 4).map(module => (
+          <TouchableOpacity
+            key={module.name}
+            style={[
+              styles.moduleCard,
+              { backgroundColor: module.background },
+            ]}
+            onPress={() => navigation.navigate(module.name)}
+          >
+            {module.name === 'Finance' ? (
+              <Entypo name="wallet" color={module.color} size={34} />
+            ) : (
+              <Icon name={module.icon} size={34} color={module.color} />
+            )}
+
+            <Text style={styles.moduleText}>{module.name}</Text>
+
+            <Text style={[styles.moduleSubtitle, { color: module.color }]}>
+              {module.subtitle}
+            </Text>
+          </TouchableOpacity>
         ))}
-      </View>
+
+        <TouchableOpacity style={styles.viewAllCard}>
+          <Text style={styles.viewAllCardText}>View All</Text>
+          <Icon name="arrow-right" size={16} color="#64748B" />
+        </TouchableOpacity>
+      </ScrollView>
 
       {/* Upcoming - placeholder */}
       <View style={styles.card}>
@@ -145,27 +211,6 @@ const styles = StyleSheet.create({
     color: '#0F172A',
     marginBottom: 12,
   },
-  moduleGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-  },
-  moduleCard: {
-    width: '31%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    paddingVertical: 18,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  moduleText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#334155',
-  },
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
@@ -229,10 +274,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  viewAllText: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#38393a',
-    marginBottom: 12,
+  moduleScroll: {
+    paddingBottom: 24,
+    paddingRight: 12,
+  },
+  moduleCard: {
+    width: 110,
+    height: 110,
+    borderRadius: 16,
+    marginRight: 10,
+    paddingVertical: 18,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  moduleText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+    marginTop: 12,
+  },
+  moduleSubtitle: {
+    fontSize: 10,
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  viewAllCard: {
+    width: 110,
+    height: 110,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#CBD5E1',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  viewAllCardText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#334155',
   },
 });

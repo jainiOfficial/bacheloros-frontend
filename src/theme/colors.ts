@@ -2,6 +2,8 @@ export const colors = {
   // Brand
   primary: '#2563EB',
   primaryDark: '#1E3A8A',
+  textPrimary: '#1E40AF',
+  textSecondary: '#475569',
 
   // Text
   textDark: '#0F172A',
@@ -15,7 +17,7 @@ export const colors = {
   surfaceMuted: '#F1F5F9',
 
   // Borders
-  border: '#E2E8F0',
+  border: '#8c8e8f',
 
   // Status/semantic colors
   success: '#10B981',

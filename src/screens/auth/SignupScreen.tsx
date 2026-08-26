@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import apiClient from '../../services/api/client';
 import { useAuth } from '../../context/AuthContext';
+import { signup as signupApi } from '../../services/api/authApis';
 
 export default function SignupScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -29,8 +30,8 @@ export default function SignupScreen({ navigation }: any) {
     }
 
       try {
-        const response = await apiClient.post('/auth/signup', { name, email, phone, password });
-        login(response.data.token); 
+        const response = await signupApi({ name, email, phone, password });
+        login(response.data.token);
       } catch (error) {
         console.error('Error during signup:', error);
       }

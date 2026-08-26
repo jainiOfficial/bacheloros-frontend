@@ -4,6 +4,7 @@ import AuthNavigator from './AuthNavigator';
 import MainTabNavigator from './MainTabNavigator';
 import { useAuth } from '../context/AuthContext';
 import { ActivityIndicator, View } from 'react-native';
+import MainStackNavigator from './MainStackNavigator';
 
 export default function RootNavigator() {
     const { isLoggedIn, isLoading } = useAuth();
@@ -17,7 +18,7 @@ export default function RootNavigator() {
 
     return (
         <NavigationContainer>
-            {isLoggedIn ? <MainTabNavigator /> : <AuthNavigator />}
+            {isLoggedIn ? <MainStackNavigator /> : <AuthNavigator />}
         </NavigationContainer>
     );
 }

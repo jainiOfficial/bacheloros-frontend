@@ -11,7 +11,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
-import apiClient from '../../services/api/client';
+import { login as loginApi } from '../../services/api/authApis';
+
 
 export default function LoginScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -25,7 +26,7 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleSignin = async () => {
     try {
-      const response = await apiClient.post('/auth/login', { email, password });
+      const response = await loginApi({ email, password });
       login(response.data.token); // Store the token in context and AsyncStorage
     } catch (error) {
       console.error('Error during login:', error);
