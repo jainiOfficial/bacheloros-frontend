@@ -6,6 +6,8 @@ import AddBillScreen from '../screens/finance/AddBillScreen';
 import BillScreen from '../screens/finance/BillScreen';
 import BillDetailsScreen from  '../screens/finance/BillDetailsScreen';
 import BillPaidSuccessScreen from '../screens/finance/BillPaidSuccessScreen';
+import ExpenseScreen from '../screens/finance/ExpenseScreen';
+import ExpenseDetailsScreen from '../screens/finance/ExpenseDetailsScreen';
 
 type MainStackParamList = {
     mainTab: undefined;
@@ -14,6 +16,8 @@ type MainStackParamList = {
     Bills: undefined;
     BillDetails: undefined;
     BillPaidSuccess: undefined;
+    Expenses:undefined;
+    ExpenseDetails: undefined;
 };
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -26,6 +30,8 @@ export default function MainStackNavigator() {
             <Stack.Screen name="Bills" component={BillScreen} />
             <Stack.Screen name="BillDetails" component={BillDetailsScreen} />
             <Stack.Screen name="BillPaidSuccess" component={BillPaidSuccessScreen} options={{ presentation: 'modal' }} />
+            <Stack.Screen name="Expenses" component={ExpenseScreen} options={{ presentation: 'modal' }}/>
+            <Stack.Screen name="ExpenseDetails" component={ExpenseDetailsScreen} />
         </Stack.Navigator>
     )
 }

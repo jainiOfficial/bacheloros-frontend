@@ -22,6 +22,7 @@ export default function AddExpenseScreen({ navigation }: any) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [customCategory, setCustomCategory] = useState('');
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -71,6 +72,8 @@ export default function AddExpenseScreen({ navigation }: any) {
                 date: date.toISOString().split('T')[0],
                 paymentType,
                 paymentTo: paymentTo.trim(),
+                customCategory: category === 'Other' ? customCategory.trim() : null,
+                fromBill:false,
             });
 
             Alert.alert('Expense Added', 'Your expense has been added successfully.', [
@@ -134,6 +137,22 @@ export default function AddExpenseScreen({ navigation }: any) {
                     <Icon name={categoryExpanded ? 'chevron-up' : 'chevron-down'} size={18} color={colors.textLight} />
                 </TouchableOpacity>
                 {errors.category && <Text style={styles.errorText}>{errors.category}</Text>}
+
+                
+                {category === 'Other' && (
+                    <>
+                    <Text style={styles.label}>please specify custom Category</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="please specify custom Category"
+                        value={customCategory}
+                        onChangeText={(value) => {
+                            setCustomCategory(value);
+                        }}
+                        multiline
+                    />
+                    </>
+                )}
                 {categoryExpanded && (
                     <View style={styles.optionsList}>
                         {categories.map((c) => (
