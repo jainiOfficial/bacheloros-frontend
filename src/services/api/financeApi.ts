@@ -6,6 +6,8 @@ export interface CreateExpensePayload {
   category: string;
   amount: number;
   date: string;
+  customCategory?: string | null;
+  fromBill:boolean;
   paymentType: string;
   paymentTo: string;
 }
@@ -41,6 +43,19 @@ export interface BillListResponse {
   overdueCount: number;
 }
 
+export interface ExpenseItem {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  customCategory: string | null;
+  amount: number;
+  date: string;
+  paymentType: string;
+  paymentTo: string;
+  fromBill: boolean;
+}
+
 export type PeriodType = 'WEEK' | 'MONTH' | 'YEAR';
 export type BillStatus = 'UPCOMING' | 'OVERDUE' | 'PAID';
 
@@ -64,3 +79,9 @@ export const markBillAsPaid = (id: number) =>
 
 export const deleteBillById = (id: number) =>
   apiClient.delete(`/bills/${id}`);
+
+export const getExpenses = () =>
+  apiClient.get<ExpenseItem[]>('/expenses');
+
+export const deleteExpenseById=(id: number)=>
+  apiClient.delete(`/expenses/${id}`);

@@ -56,7 +56,7 @@ export default function BillPaidSuccessScreen({ route }: any) {
                     <View style={[styles.infoIcon, styles.expenseIcon]}><Icon name="shopping-bag" size={22} color="#16A36A" /></View>
                     <View><Text style={styles.infoTitle}>Expense created</Text><Text style={styles.infoText}>{billPayload ? `${formatCurrency(billPayload.amount)} added to Expenses` : 'Payment added to Expenses'}</Text></View>
                 </View>
-                {billPayload?.recurring && (
+                {billPayload && billPayload?.recurrenceType && (
                     <View style={[styles.infoBox, styles.nextBillBox]}>
                         <View style={[styles.infoIcon, styles.nextBillIcon]}><Icon name="calendar" size={22} color={colors.primary} /></View>
                         <View><Text style={[styles.infoTitle, styles.nextBillTitle]}>Next bill generated</Text><Text style={[styles.infoText, styles.nextBillText]}>Next due date: {formatDate(billPayload)}</Text></View>

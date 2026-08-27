@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { BillItem, createBill, CreateBillPayload, createExpense, CreateExpensePayload, deleteBillById, getBillById, markBillAsPaid } from '../../services/api/financeApi';
@@ -48,6 +48,7 @@ export default function BillDetailsScreen({ route }: any) {
     const [actionLoading, setActionLoading] = useState(false);
     const [paymentModalVisible, setPaymentModalVisible] = useState(false);
     const [category, setCategory] = useState('');
+    const [customCategory, setCustomCategory] = useState('');
     const [paymentType, setPaymentType] = useState('');
     const [selectionError, setSelectionError] = useState('');
     const [addNextBill, setAddNextBill] = useState(false);
@@ -64,7 +65,7 @@ export default function BillDetailsScreen({ route }: any) {
     useFocusEffect(useCallback(() => {
         loadBill();
     }, [loadBill]));
-     
+
     const updateExpense = async (expensePayload: CreateExpensePayload) => {
         try {
             await createExpense(expensePayload);
@@ -93,12 +94,14 @@ export default function BillDetailsScreen({ route }: any) {
             date: new Date().toISOString(),
             paymentType,
             paymentTo: bill.paidTo,
+            customCategory: category === 'Other' ? customCategory : null,
+            fromBill:true,
         };
         setActionLoading(true);
         try {
             await markBillAsPaid(bill.id);
             await updateExpense(expensePayload);
-            let nextBillPayload: CreateBillPayload | null = bill;
+            let nextBillPayload: CreateBillPayload | null = null;
             if (bill.recurrenceType && addNextBill) {
                 const nextDueDate = new Date(getBillDate(bill.dueDate));
                 switch (bill.recurrenceType) {
@@ -132,7 +135,7 @@ export default function BillDetailsScreen({ route }: any) {
         } finally {
             setActionLoading(false);
             setSelectionError('');
-            
+
         }
     };
 
@@ -215,6 +218,20 @@ export default function BillDetailsScreen({ route }: any) {
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.optionsRow}>
                             {categories.map((item) => <TouchableOpacity key={item} style={[styles.option, category === item && styles.selectedOption]} onPress={() => { setCategory(item); setSelectionError(''); }}><Text style={[styles.optionText, category === item && styles.selectedOptionText]}>{item}</Text></TouchableOpacity>)}
                         </ScrollView>
+                        {category === 'Other' && (
+                            <>
+                                <Text style={styles.label}>please specify custom Category</Text>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="please specify custom Category"
+                                    value={customCategory}
+                                    onChangeText={(value) => {
+                                        setCustomCategory(value);
+                                    }}
+                                    multiline
+                                />
+                            </>
+                        )}
                         <Text style={styles.modalLabel}>Payment Type</Text>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.optionsRow}>
                             {paymentTypes.map((item) => <TouchableOpacity key={item} style={[styles.option, paymentType === item && styles.selectedOption]} onPress={() => { setPaymentType(item); setSelectionError(''); }}><Text style={[styles.optionText, paymentType === item && styles.selectedOptionText]}>{item}</Text></TouchableOpacity>)}
@@ -233,7 +250,7 @@ export default function BillDetailsScreen({ route }: any) {
                                 </View>
                             </View>
                         )}
-                        <TouchableOpacity style={[styles.confirmButton, actionLoading && styles.disabledButton]} onPress={()=>{navigation.goBack(); handleMarkAsPaid();}} disabled={actionLoading}><Text style={styles.primaryButtonText}>{actionLoading ? 'Saving...' : 'Confirm & Mark Paid'}</Text></TouchableOpacity>
+                        <TouchableOpacity style={[styles.confirmButton, actionLoading && styles.disabledButton]} onPress={() => { navigation.goBack(); handleMarkAsPaid(); }} disabled={actionLoading}><Text style={styles.primaryButtonText}>{actionLoading ? 'Saving...' : 'Confirm & Mark Paid'}</Text></TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -289,4 +306,15 @@ const styles = StyleSheet.create({
     recurringOptions: { flexDirection: 'row', gap: 8 },
     recurringOption: { flex: 1, borderWidth: 1, borderColor: colors.border, borderRadius: 10, paddingVertical: 10, alignItems: 'center' },
     confirmButton: { height: 52, borderRadius: 14, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', marginTop: 24 },
+    label: { fontSize: 13, fontWeight: '600', color: colors.textMedium, marginBottom: 6, marginTop: 14 },
+    input: {
+        backgroundColor: colors.surface,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: colors.border,
+        paddingHorizontal: 14,
+        paddingVertical: 12,
+        fontSize: 15,
+        color: colors.textDark,
+    },
 });
