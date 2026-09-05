@@ -75,6 +75,7 @@ export default function FinanceScreen() {
   // isliye getParent() se ek level upar jaana padega.
   const goToAddExpense = () => navigation.navigate('AddExpense');
   const goToAddBill = () => navigation.navigate('AddBill');
+  const goToAddMonthlyBudget = () => navigation.navigate('AddMonthlyBudget');
 
   if (loading) {
     return (
@@ -171,7 +172,7 @@ export default function FinanceScreen() {
           <Text style={styles.quickActionText}>Add Bill</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.quickAction} disabled>
+        <TouchableOpacity style={styles.quickAction} onPress={goToAddMonthlyBudget}>
           <View style={[styles.quickActionIcon, { backgroundColor: '#EDE9FE' }]}>
             <Icon name="pie-chart" size={22} color={colors.accentPurple} />
           </View>
