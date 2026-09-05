@@ -55,9 +55,28 @@ export interface ExpenseItem {
   paymentTo: string;
   fromBill: boolean;
 }
+export interface BudgetCategoryPayload {
+  category: string;
+  allocatedAmount: number;
+}
+export interface BudgetItem {
+  id: number;
+  month: number;
+  year: number;
+  totalAmount: number;
+  categories: BudgetCategoryPayload[];
+
+}
 
 export type PeriodType = 'WEEK' | 'MONTH' | 'YEAR';
 export type BillStatus = 'UPCOMING' | 'OVERDUE' | 'PAID';
+
+export interface CreateMonthlyBudgetPayload {
+  month: number;
+  year: number;
+  totalAmount: number;
+  categories: BudgetCategoryPayload[];
+}
 
 export const createExpense = (payload: CreateExpensePayload) =>
   apiClient.post('/expenses', payload);
@@ -85,3 +104,9 @@ export const getExpenses = () =>
 
 export const deleteExpenseById=(id: number)=>
   apiClient.delete(`/expenses/${id}`);
+
+export const createMonthlyBudget = (payload: CreateMonthlyBudgetPayload) =>
+  apiClient.post('/budgets', payload);
+
+export const createBudget = (payload: BudgetItem) =>
+  apiClient.post('/budgets', payload);
