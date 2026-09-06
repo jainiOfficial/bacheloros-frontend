@@ -59,6 +59,23 @@ export interface BudgetCategoryPayload {
   category: string;
   allocatedAmount: number;
 }
+
+export interface CategoryBudgetResponse {
+  category: string;
+  allocatedAmount: number;
+  spentAmount: number;
+  remainingAmount: number;
+}
+
+export interface BudgetOverviewResponse {
+  month: number;
+  year: number;
+  totalAmount: number;
+  totalSpent: number;
+  totalRemaining: number;
+  categories: CategoryBudgetResponse[];
+}
+
 export interface BudgetItem {
   id: number;
   month: number;
@@ -110,3 +127,6 @@ export const createMonthlyBudget = (payload: CreateMonthlyBudgetPayload) =>
 
 export const createBudget = (payload: BudgetItem) =>
   apiClient.post('/budgets', payload);
+
+export const getBudgetOverview = (month: number, year: number) =>
+  apiClient.get<BudgetOverviewResponse>('/budgets', { params: { month, year } });

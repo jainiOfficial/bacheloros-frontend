@@ -186,7 +186,7 @@ export default function FinanceScreen() {
         {[
           { title: 'Expenses', subtitle: 'Track and manage your spending', icon: 'shopping-bag' ,route: 'Expenses'},
           { title: 'Bills', subtitle: 'View and manage your bills', icon: 'file-text' ,route: 'Bills'},
-          { title: 'Budget', subtitle: 'Plan and track your budget', icon: 'pie-chart' ,route: 'Budget'},
+          { title: 'Budget', subtitle: 'Plan and track your budget', icon: 'pie-chart' ,route: 'BudgetOverview'},
           { title: 'Reports', subtitle: 'Insights & analytics', icon: 'bar-chart-2' ,route: 'Reports'},
         ].map((item) => (
           <TouchableOpacity key={item.title} style={styles.sectionItem} onPress={() => navigation.navigate(item.route)}>

@@ -11,6 +11,7 @@ import ExpenseDetailsScreen from '../screens/finance/ExpenseDetailsScreen';
 import AddMonthlyBudgetScreen from '../screens/finance/AddMonthlyBudgetScreen';
 import AddCategoryWiseMonthlyBudgetScreen from '../screens/finance/AddCategoryWiseMonthlyBudgetScreen';
 import BudgetSetSuccessScreen from '../screens/finance/BudgetSetSuccessScreen';
+import BudgetOverviewScreen from '../screens/finance/BudgetOverviewScreen';
 
 type MainStackParamList = {
     mainTab: undefined;
@@ -22,6 +23,7 @@ type MainStackParamList = {
     Expenses:undefined;
     ExpenseDetails: undefined;
     AddMonthlyBudget: undefined;
+    BudgetOverview: undefined;
     AddCategoryWiseMonthlyBudget: {
         month: number;
         year: number;
@@ -49,6 +51,7 @@ export default function MainStackNavigator() {
             <Stack.Screen name="AddMonthlyBudget" component={AddMonthlyBudgetScreen} options={{ presentation: 'modal' }} />
             <Stack.Screen name="AddCategoryWiseMonthlyBudget" component={AddCategoryWiseMonthlyBudgetScreen} options={{ presentation: 'modal' }} />
             <Stack.Screen name="BudgetSetSuccess" component={BudgetSetSuccessScreen} options={{ presentation: 'modal' }} />
+            <Stack.Screen name="BudgetOverview" component={BudgetOverviewScreen} />
         </Stack.Navigator>
     )
 }
