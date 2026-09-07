@@ -45,13 +45,13 @@ export default function BudgetOverviewScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}><Icon name="arrow-left" size={22} color={colors.textDark} /></TouchableOpacity>
-          <View style={styles.headerCopy}><Text style={styles.title}>Budget</Text><Text style={styles.subtitle}>Plan smart. Spend better.</Text></View>
-          <Icon name="info" size={20} color={colors.textDark} />
-        </View>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}><Icon name="arrow-left" size={22} color={colors.textDark} /></TouchableOpacity>
+        <View style={styles.headerCopy}><Text style={styles.title}>Budget</Text><Text style={styles.subtitle}>Plan smart. Spend better.</Text></View>
+        <Icon name="info" size={20} color={colors.textDark} />
+      </View>
 
+      <ScrollView contentContainerStyle={styles.content}>
         <MonthYearSelector month={selectedMonth} year={selectedYear} onChange={handlePeriodChange} />
 
         {loading ? (
@@ -70,7 +70,7 @@ export default function BudgetOverviewScreen({ navigation }: any) {
             </View>
             <View style={styles.statsRow}><Stat label="Spent" value={overview.totalSpent} note={`${spentPercentage}%`} color={colors.primary} /><Stat label="Remaining" value={overview.totalRemaining} note={`${100 - spentPercentage}%`} color={colors.success} /><Stat label="Budget" value={overview.totalAmount} note="100%" color={colors.textDark} /></View>
             <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Category Summary</Text><TouchableOpacity><Text style={styles.viewAll}>View All ›</Text></TouchableOpacity></View>
-            {overview.categories.slice(4).map((item, index) => renderCategoryCard(item, index, formatCurrency))}
+            {overview.categories.map((item, index) => renderCategoryCard(item, index, formatCurrency, navigation, selectedMonth, selectedYear))}
             <TouchableOpacity style={styles.editButton}><Icon name="edit-2" size={16} color={colors.primary} /><Text style={styles.editText}>Edit Budget</Text></TouchableOpacity>
           </View>
         )}
@@ -87,6 +87,9 @@ function renderCategoryCard(
   item: BudgetOverviewResponse['categories'][number],
   index: number,
   formatCurrency: (value: number) => string,
+  navigation: any,
+  month: number,
+  year: number,
 ) {
   const color = categoryColors[index % categoryColors.length];
   const icon = categoryIcons[index % categoryIcons.length];
@@ -95,7 +98,19 @@ function renderCategoryCard(
     : 0;
 
   return (
-    <TouchableOpacity style={styles.categoryCard} key={item.category} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.categoryCard}
+      key={item.category}
+      activeOpacity={0.7}
+      onPress={() => navigation.navigate('BudgetCategoryOverview', {
+        category: item.category,
+        allocatedAmount: item.allocatedAmount,
+        spentAmount: item.spentAmount,
+        remainingAmount: item.remainingAmount,
+        month,
+        year,
+      })}
+    >
       <View style={[styles.categoryIcon, { backgroundColor: `${color}18` }]}>
         <Icon name={icon} size={17} color={color} />
       </View>
@@ -129,8 +144,8 @@ function renderCategoryCard(
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 20, paddingTop: 56, paddingBottom: 30 },
-  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
+  content: { padding: 20, paddingTop: 0, paddingBottom: 30 },
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: 20, paddingTop: 56, paddingHorizontal: 20, paddingBottom: 4, backgroundColor: colors.background },
   backButton: { width: 34, justifyContent: 'center' },
   headerCopy: { flex: 1, marginLeft: 14 },
   title: { fontSize: 24, fontWeight: '800', color: colors.textDark },

@@ -119,6 +119,15 @@ export const deleteBillById = (id: number) =>
 export const getExpenses = () =>
   apiClient.get<ExpenseItem[]>('/expenses');
 
+export const getExpensesByCategoryAndMonth = (
+  category: string,
+  month: number,
+  year: number,
+) =>
+  apiClient.get<ExpenseItem[]>('/expenses/by-category', {
+    params: { category, month, year },
+  });
+
 export const deleteExpenseById=(id: number)=>
   apiClient.delete(`/expenses/${id}`);
 
