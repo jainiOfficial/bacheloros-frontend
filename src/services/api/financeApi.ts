@@ -59,6 +59,23 @@ export interface BudgetCategoryPayload {
   category: string;
   allocatedAmount: number;
 }
+
+export interface CategoryBudgetResponse {
+  category: string;
+  allocatedAmount: number;
+  spentAmount: number;
+  remainingAmount: number;
+}
+
+export interface BudgetOverviewResponse {
+  month: number;
+  year: number;
+  totalAmount: number;
+  totalSpent: number;
+  totalRemaining: number;
+  categories: CategoryBudgetResponse[];
+}
+
 export interface BudgetItem {
   id: number;
   month: number;
@@ -102,6 +119,15 @@ export const deleteBillById = (id: number) =>
 export const getExpenses = () =>
   apiClient.get<ExpenseItem[]>('/expenses');
 
+export const getExpensesByCategoryAndMonth = (
+  category: string,
+  month: number,
+  year: number,
+) =>
+  apiClient.get<ExpenseItem[]>('/expenses/by-category', {
+    params: { category, month, year },
+  });
+
 export const deleteExpenseById=(id: number)=>
   apiClient.delete(`/expenses/${id}`);
 
@@ -110,3 +136,6 @@ export const createMonthlyBudget = (payload: CreateMonthlyBudgetPayload) =>
 
 export const createBudget = (payload: BudgetItem) =>
   apiClient.post('/budgets', payload);
+
+export const getBudgetOverview = (month: number, year: number) =>
+  apiClient.get<BudgetOverviewResponse>('/budgets', { params: { month, year } });
