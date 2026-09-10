@@ -10,27 +10,27 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { useAuth } from '../../context/AuthContext';
-import { login as loginApi } from '../../services/api/authApis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { login as loginApi } from '../../services/api/authApis';
+import apiClient from '../../services/api/client';
+import { useAppDispatch } from '../../store/hooks';
+import { loginSuccess } from '../../store/slices/authSlice';
 
 export default function LoginScreen({ navigation }: any) {
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { login } = useAuth();
+
+  const dispatch = useAppDispatch();
 
   const handleSignin = async () => {
-    try {
-      const response = await loginApi({ email, password });
-      login(response.data.token); // Store the token in context and AsyncStorage
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
+   dispatch(
+      loginSuccess({
+        email,
+        password,
+      })
+    );
   };
 
   return (
@@ -61,7 +61,6 @@ export default function LoginScreen({ navigation }: any) {
               keyboardType="email-address"
             />
           </View>
-
 
           <View style={styles.inputWrapper}>
             <Text style={styles.icon}>🔒</Text>
@@ -100,22 +99,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 26,
     paddingTop: 100,
     paddingBottom: 30,
-  },
-  brand: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: '#0F172A',
-    textAlign: 'center',
-  },
-  brandBlue: {
-    color: '#2563EB',
-  },
-  tagline: {
-    fontSize: 13,
-    color: '#64748B',
-    textAlign: 'center',
-    marginTop: 2,
-    marginBottom: 10,
   },
   illustration: {
     width: '100%',

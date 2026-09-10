@@ -11,8 +11,10 @@ import {
   ScrollView,
 } from 'react-native';
 import apiClient from '../../services/api/client';
-import { useAuth } from '../../context/AuthContext';
 import { signup as signupApi } from '../../services/api/authApis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '../../store/hooks';
+import { loginSuccess, signupSuccess } from '../../store/slices/authSlice';
 
 export default function SignupScreen({ navigation }: any) {
   const [name, setName] = useState('');
@@ -22,19 +24,20 @@ export default function SignupScreen({ navigation }: any) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { login } = useAuth();
+  const dispatch = useAppDispatch();
   const handleSignup = async () => {
     if (password !== confirmPassword) {
       console.log('Passwords do not match');
       return;
     }
-
-      try {
-        const response = await signupApi({ name, email, phone, password });
-        login(response.data.token);
-      } catch (error) {
-        console.error('Error during signup:', error);
-      }
+    dispatch(
+      signupSuccess({
+        name,
+        email,
+        phone,
+        password,
+      })
+    );
   };
 
   return (
