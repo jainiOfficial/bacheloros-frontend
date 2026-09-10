@@ -9,7 +9,10 @@ const categoryIcons = ['shopping-bag', 'truck', 'coffee', 'film', 'shopping-cart
 
 export default function AddCategoryWiseMonthlyBudgetScreen({ navigation, route }: any) {
   const { month, year, totalAmount } = route.params;
-  const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(categoryNames.map((name) => [name, '0'])));
+  const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(categoryNames.map((name) => {
+    const existingCategory = route.params.categories?.find((item: { category: string }) => item.category === name);
+    return [name, String(existingCategory?.allocatedAmount ?? 0)];
+  })));
   const [saving, setSaving] = useState(false);
   const allocated = useMemo(() => categoryNames.reduce((sum, category) => sum + (Number(values[category]) || 0), 0), [values]);
   const remaining = totalAmount - allocated;
