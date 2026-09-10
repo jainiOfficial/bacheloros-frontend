@@ -1,11 +1,12 @@
 import React from 'react';
 import RootNavigator from './src/navigation/RootNavigator';
-import { AuthProvider } from './src/context/AuthContext';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 
 export default function App() {
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <RootNavigator />
-    </AuthProvider>
+    </Provider>
   );
 }

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useAppSelector } from '../../store/hooks';
 export default function DashboardScreen({ navigation }: any) {
 
-  const { userDetails } = useAuth();
+  const {user} = useAppSelector((state) => state.auth);
   const allModules = [
     {
       name: 'Finance',
@@ -57,6 +58,8 @@ export default function DashboardScreen({ navigation }: any) {
     if (hour < 17) return 'Good Afternoon';
     return 'Good Evening';
   };
+
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
@@ -76,7 +79,7 @@ export default function DashboardScreen({ navigation }: any) {
 
       {/* Greeting */}
       <Text style={styles.greeting}>
-        {getGreeting()}, {userDetails?.name ?? ''} 👋
+        {getGreeting()}, {user?.name ?? ''} 👋
       </Text>
       <Text style={styles.subGreeting}>Let's finish your tasks for today!</Text>
 
