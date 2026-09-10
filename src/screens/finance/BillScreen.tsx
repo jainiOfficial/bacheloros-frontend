@@ -120,10 +120,12 @@ export default function BillScreen() {
                     <Text style={styles.headerSubtitle}>Manage and track all your bills</Text>
                 </View>
                 <TouchableOpacity
-                    style={styles.iconButton}
+                    // style={styles.iconButton}
                     onPress={() => navigation.navigate('AddBill')}
                 >
-                    <Icon name="plus" size={20} color={colors.primary} />
+                    <View style={styles.addIconButton}>
+                        <Icon name="plus" size={22} color={colors.primary} />
+                    </View>
                 </TouchableOpacity>
             </View>
 
@@ -185,6 +187,7 @@ const styles = StyleSheet.create({
         width: 54, height: 54, borderRadius: 27, borderWidth: 1, borderColor: '#94A3B8',
         justifyContent: 'center', alignItems: 'center',
     },
+    addIconButton: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
     tabsRow: {
         flexDirection: 'row', backgroundColor: colors.surface, marginHorizontal: 24,
         borderRadius: 30, padding: 4, marginBottom: 16,

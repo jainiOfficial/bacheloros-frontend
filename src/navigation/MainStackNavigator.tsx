@@ -13,6 +13,7 @@ import AddCategoryWiseMonthlyBudgetScreen from '../screens/finance/AddCategoryWi
 import BudgetSetSuccessScreen from '../screens/finance/BudgetSetSuccessScreen';
 import BudgetOverviewScreen from '../screens/finance/BudgetOverviewScreen';
 import BudgetCategoryOverviewScreen from '../screens/finance/BudgetCategoryOverviewScreen';
+import ViewAllCategoryBudget from '../screens/finance/ViewAllCategoryBudget';
 
 type MainStackParamList = {
     mainTab: undefined;
@@ -30,6 +31,10 @@ type MainStackParamList = {
         allocatedAmount: number;
         spentAmount: number;
         remainingAmount: number;
+        month: number;
+        year: number;
+    };
+    ViewAllCategoryBudget: {
         month: number;
         year: number;
     };
@@ -62,6 +67,7 @@ export default function MainStackNavigator() {
             <Stack.Screen name="BudgetSetSuccess" component={BudgetSetSuccessScreen} options={{ presentation: 'modal' }} />
             <Stack.Screen name="BudgetOverview" component={BudgetOverviewScreen} />
             <Stack.Screen name="BudgetCategoryOverview" component={BudgetCategoryOverviewScreen} />
+            <Stack.Screen name="ViewAllCategoryBudget" component={ViewAllCategoryBudget} />
         </Stack.Navigator>
     )
 }

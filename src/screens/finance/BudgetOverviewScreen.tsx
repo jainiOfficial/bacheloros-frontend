@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { colors } from '../../theme/colors';
 import MonthYearSelector from './MonthYearSelector';
@@ -48,7 +48,13 @@ export default function BudgetOverviewScreen({ navigation }: any) {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}><Icon name="arrow-left" size={22} color={colors.textDark} /></TouchableOpacity>
         <View style={styles.headerCopy}><Text style={styles.title}>Budget</Text><Text style={styles.subtitle}>Plan smart. Spend better.</Text></View>
-        <Icon name="info" size={20} color={colors.textDark} />
+        <TouchableOpacity
+          style={styles.infoButton}
+          onPress={() => Alert.alert('Manage your budget', 'Set a monthly budget, assign amounts to categories, and track your spending here. Tap a category to view its transactions.')}
+          accessibilityLabel="Budget information"
+        >
+          <Icon name="info" size={20} color={colors.textDark} />
+        </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -69,9 +75,20 @@ export default function BudgetOverviewScreen({ navigation }: any) {
               <View style={styles.progressRing}><Text style={styles.progressValue}>{spentPercentage}%</Text><Text style={styles.progressLabel}>Spent</Text></View>
             </View>
             <View style={styles.statsRow}><Stat label="Spent" value={overview.totalSpent} note={`${spentPercentage}%`} color={colors.primary} /><Stat label="Remaining" value={overview.totalRemaining} note={`${100 - spentPercentage}%`} color={colors.success} /><Stat label="Budget" value={overview.totalAmount} note="100%" color={colors.textDark} /></View>
-            <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Category Summary</Text><TouchableOpacity><Text style={styles.viewAll}>View All ›</Text></TouchableOpacity></View>
-            {overview.categories.map((item, index) => renderCategoryCard(item, index, formatCurrency, navigation, selectedMonth, selectedYear))}
-            <TouchableOpacity style={styles.editButton}><Icon name="edit-2" size={16} color={colors.primary} /><Text style={styles.editText}>Edit Budget</Text></TouchableOpacity>
+            <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Category Summary</Text><TouchableOpacity onPress={() => navigation.navigate('ViewAllCategoryBudget', { month: selectedMonth, year: selectedYear })}><Text style={styles.viewAll}>View All ›</Text></TouchableOpacity></View>
+            {overview.categories.slice(0, 4).map((item, index) => renderCategoryCard(item, index, formatCurrency, navigation, selectedMonth, selectedYear))}
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => navigation.navigate('AddCategoryWiseMonthlyBudget', {
+                month: selectedMonth,
+                year: selectedYear,
+                totalAmount: overview.totalAmount,
+                categories: overview.categories,
+              })}
+            >
+              <Icon name="edit-2" size={16} color={colors.primary} />
+              <Text style={styles.editText}>Edit Budget Categories</Text>
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
@@ -148,6 +165,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', marginBottom: 20, paddingTop: 56, paddingHorizontal: 20, paddingBottom: 4, backgroundColor: colors.background },
   backButton: { width: 34, justifyContent: 'center' },
   headerCopy: { flex: 1, marginLeft: 14 },
+  infoButton: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 24, fontWeight: '800', color: colors.textDark },
   subtitle: { color: colors.textLight, fontSize: 12, marginTop: 3 },
   emptyState: { alignItems: 'center', paddingTop: 70 },
@@ -183,6 +201,6 @@ const styles = StyleSheet.create({
   progressTrack: { height: 5, backgroundColor: colors.surfaceMuted, borderRadius: 3, overflow: 'hidden' },
   progressBar: { height: 5, borderRadius: 3 },
   categoryPercent: { width: 32, textAlign: 'right', color: colors.textDark, fontSize: 10, fontWeight: '800', marginLeft: 8 },
-  editButton: { height: 50, borderRadius: 12, borderWidth: 1, borderColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 14 },
+  editButton: { height: 50, borderRadius: 12, borderWidth: 1, borderColor: colors.primary, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 28, marginBottom: 8 },
   editText: { color: colors.primary, fontSize: 14, fontWeight: '800' },
 });
