@@ -1,12 +1,22 @@
 import React, { useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getMemberInfo } from '../../services/api/memberInfo';
+import { setUser } from '../../store/slices/authSlice';
 export default function DashboardScreen({ navigation }: any) {
-
-  const {user} = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector(state => state.auth);
+  const dispatch=useAppDispatch();
   const allModules = [
     {
       name: 'Finance',
@@ -58,7 +68,20 @@ export default function DashboardScreen({ navigation }: any) {
     if (hour < 17) return 'Good Afternoon';
     return 'Good Evening';
   };
+  const fetchMemberInfo = useCallback(async () => {
+    try {
+      const response = await getMemberInfo();
+      dispatch(setUser(response.data ?? null));
 
+      console.log('Member Info:', response.data);
+    } catch (error) {
+      console.error('Error fetching member info:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchMemberInfo();
+  }, [fetchMemberInfo]);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -103,14 +126,12 @@ export default function DashboardScreen({ navigation }: any) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.moduleScroll}>
+        contentContainerStyle={styles.moduleScroll}
+      >
         {allModules.slice(0, 4).map(module => (
           <TouchableOpacity
             key={module.name}
-            style={[
-              styles.moduleCard,
-              { backgroundColor: module.background },
-            ]}
+            style={[styles.moduleCard, { backgroundColor: module.background }]}
             onPress={() => navigation.navigate(module.name)}
           >
             {module.name === 'Finance' ? (

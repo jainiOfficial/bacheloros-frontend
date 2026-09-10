@@ -25,12 +25,11 @@ export default function RootNavigator() {
           return;
         }
 
-        const response = await apiClient.get('/users/me');
+        // const response = await apiClient.get('/users/me');
 
         dispatch(
           restoreSession({
             token: savedToken,
-            user: response.data ?? null,
           })
         );
       } catch (error: any) {
