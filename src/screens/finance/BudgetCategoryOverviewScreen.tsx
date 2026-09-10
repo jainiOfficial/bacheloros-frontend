@@ -47,7 +47,6 @@ export default function BudgetCategoryOverviewScreen({ navigation, route }: any)
             <Text style={styles.title}>{category}</Text>
             <Text style={styles.subtitle}>Budget details for {monthLabel}</Text>
           </View>
-          <Icon name="edit-2" size={19} color={colors.textDark} />
         </View>
 
         <View style={styles.summaryCard}>
