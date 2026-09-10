@@ -42,8 +42,8 @@ export const loginSuccess = createAsyncThunk(
 
       await AsyncStorage.setItem('token', token);
 
-      const userResponse = await apiClient.get('/users/me');
-      return { token, user: userResponse.data ?? null };
+    //   const userResponse = await apiClient.get('/users/me');
+      return { token };
     } catch (error: any) {
       return rejectWithValue(error?.message??'Login failed');
     }
@@ -63,8 +63,8 @@ export const signupSuccess = createAsyncThunk(
 
       await AsyncStorage.setItem('token', token);
 
-      const userResponse = await apiClient.get('/users/me');
-      return { token, user: userResponse.data ?? null };
+    //   const userResponse = await apiClient.get('/users/me');
+      return { token };
     } catch (error: any) {
       return rejectWithValue(error?.message??'Signup failed');
     }
@@ -78,10 +78,12 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
 
     restoreSession: (state, action) => {
       state.token = action.payload.token;
-      state.user = action.payload.user ?? null;
       state.isLoggedIn = !!action.payload.token;
       state.isLoading = false;
       state.error = null;
@@ -108,7 +110,6 @@ const authSlice = createSlice({
     });
     builder.addCase(loginSuccess.fulfilled, (state, action) => {
       state.token = action.payload.token;
-      state.user = action.payload.user ?? null;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
@@ -124,7 +125,6 @@ const authSlice = createSlice({
     });
     builder.addCase(signupSuccess.fulfilled, (state, action) => {
       state.token = action.payload.token;
-      state.user = action.payload.user ?? null;
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
@@ -141,6 +141,7 @@ export const {
   restoreSession,
   logout,
   setAuthError,
+  setUser,
 } = authSlice.actions;
 
 export default authSlice.reducer;
