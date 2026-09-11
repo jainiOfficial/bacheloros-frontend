@@ -101,8 +101,8 @@ export const createExpense = (payload: CreateExpensePayload) =>
 export const createBill = (payload: CreateBillPayload) =>
   apiClient.post('/bills', payload);
 
-export const getFinanceOverview = (period: PeriodType) =>
-  apiClient.get('/finance/overview', { params: { period } });
+export const getFinanceOverview = () =>
+  apiClient.get('/finance/overview');
 
 export const getBills = (status: BillStatus) =>
   apiClient.get<BillListResponse>('/bills', { params: { status } });

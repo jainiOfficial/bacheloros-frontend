@@ -8,10 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 const categoryNames = ['Groceries', 'Transport', 'Food & Dining', 'Entertainment', 'Shopping', 'Utilities', 'Health', 'Others'];
 const categoryIcons = ['shopping-bag', 'truck', 'coffee', 'film', 'shopping-cart', 'home', 'heart', 'more-horizontal'];
 
-export default function AddCategoryWiseMonthlyBudgetScreen({ navigation }: any) {
-  const month =useAppSelector((state) => state.budget.selectedMonth);
-  const year =useAppSelector((state) => state.budget.selectedYear);
-  const totalAmount = useAppSelector((state) => state.budget.overview?.totalAmount ?? 0);
+export default function AddCategoryWiseMonthlyBudgetScreen({ navigation ,route}: any) {
+  const { month, year, totalAmount } = route.params;
   const categories = useAppSelector((state) => state.budget.overview?.categories ?? []);
   const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(categoryNames.map((name) => {
     const existingCategory = categories.find((item: { category: string }) => item.category === name);
@@ -35,7 +33,7 @@ export default function AddCategoryWiseMonthlyBudgetScreen({ navigation }: any) 
     } finally {
       setSaving(false);
     }
-  };
+  }; 
 
   return (
     <View style={styles.container}>
