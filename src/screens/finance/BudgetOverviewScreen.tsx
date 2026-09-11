@@ -159,7 +159,7 @@ export default function BudgetOverviewScreen({ navigation }: any) {
             <TouchableOpacity
               style={styles.editButton}
               onPress={() =>
-                navigation.navigate('AddCategoryWiseMonthlyBudget')
+                navigation.navigate('AddCategoryWiseMonthlyBudget',{month:selectedMonth,year:selectedYear,totalAmount:overview?.totalAmount})
               }
             >
               <Icon name="edit-2" size={16} color={colors.primary} />
