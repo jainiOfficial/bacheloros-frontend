@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import budgetReducer from './slices/budgetSlice';
+import financeReducer from './slices/financeSlice';
 
 export const store = configureStore({
-  reducer: { auth: authReducer, budget: budgetReducer }
-
+  reducer: { auth: authReducer, budget: budgetReducer, finance: financeReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
