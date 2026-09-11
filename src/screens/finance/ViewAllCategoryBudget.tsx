@@ -3,12 +3,14 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View
 import Icon from 'react-native-vector-icons/Feather';
 import { colors } from '../../theme/colors';
 import { BudgetOverviewResponse, getBudgetOverview } from '../../services/api/financeApi';
+import { useAppSelector } from '../../store/hooks';
 
 const categoryColors = ['#10B981', '#F97316', '#F59E0B', '#8B5CF6', '#2563EB'];
 const categoryIcons = ['shopping-cart', 'truck', 'coffee', 'film', 'more-horizontal'];
 
-export default function ViewAllCategoryBudget({ navigation, route }: any) {
-  const { month, year } = route.params;
+export default function ViewAllCategoryBudget({ navigation }: any) {
+  const month=useAppSelector((state) => state.budget.selectedMonth);
+  const year=useAppSelector((state) => state.budget.selectedYear);
   const [overview, setOverview] = useState<BudgetOverviewResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

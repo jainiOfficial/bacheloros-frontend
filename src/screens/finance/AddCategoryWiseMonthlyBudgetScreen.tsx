@@ -3,14 +3,18 @@ import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, Touc
 import Icon from 'react-native-vector-icons/Feather';
 import { createMonthlyBudget } from '../../services/api/financeApi';
 import { colors } from '../../theme/colors';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const categoryNames = ['Groceries', 'Transport', 'Food & Dining', 'Entertainment', 'Shopping', 'Utilities', 'Health', 'Others'];
 const categoryIcons = ['shopping-bag', 'truck', 'coffee', 'film', 'shopping-cart', 'home', 'heart', 'more-horizontal'];
 
-export default function AddCategoryWiseMonthlyBudgetScreen({ navigation, route }: any) {
-  const { month, year, totalAmount } = route.params;
+export default function AddCategoryWiseMonthlyBudgetScreen({ navigation }: any) {
+  const month =useAppSelector((state) => state.budget.selectedMonth);
+  const year =useAppSelector((state) => state.budget.selectedYear);
+  const totalAmount = useAppSelector((state) => state.budget.overview?.totalAmount ?? 0);
+  const categories = useAppSelector((state) => state.budget.overview?.categories ?? []);
   const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(categoryNames.map((name) => {
-    const existingCategory = route.params.categories?.find((item: { category: string }) => item.category === name);
+    const existingCategory = categories.find((item: { category: string }) => item.category === name);
     return [name, String(existingCategory?.allocatedAmount ?? 0)];
   })));
   const [saving, setSaving] = useState(false);
